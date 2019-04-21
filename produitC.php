@@ -2,30 +2,36 @@
 include "../config.php";
 class ProduitC {
 function afficherProduit ($produit){
-	    echo "id : ".$produit->getid()."<br>";
+
+		echo "reference : ".$produit->getnom()."<br>";
+		echo "categorie : ".$produit->getCategorie()."<br>";
 		echo "nom : ".$produit->getnom()."<br>";
-		echo "Prix : ".$produit->getprix()."<br>";
-		echo "Quantité: ".$produit->getquantite()."<br>";
-		echo "image: ".$produit->getimage()."<br>";	
-		echo "description : ".$produit->getdescription()."<br>";
+		echo "Prix : ".$produit->getPrix()."<br>";
+		echo "couleur: ".$produit->getCouleur()."<br>";
+		echo "image: ".$produit->getImage()."<br>";	
+		echo "stock : ".$produit->getStock()."<br>";
+		echo "description : ".$produit->getDescription()."<br>";
 	}
 	function ajouterProduit($produit){
-		$sql="insert into produit (id,nom,prix,quantite,image,description) values (:id,:nom, :prix, :quantite,:image , :description )";
+		$sql="insert into produit (categorie,nom,couleur,image,prix,stock,description) values(:categorie,:nom,:couleur,:image,:prix,:stock,:description )";
 		$db = config::getConnexion();
 		try{
         $req=$db->prepare($sql);
-		$id=$produit->getid();
+        $categorie=$produit->getCategorie();
         $nom=$produit->getnom();
         $prix=$produit->getprix();
-        $quantite=$produit->getquantite(); 
-        $image=$produit->getimage();  
-        $description=$produit->getdescription();
+        $couleur=$produit->getCouleur();
+        $image=$produit->getImage();
+        $stock=$produit->getStock();
+        $description=$produit->getDescription();
 
-        $req->bindValue(':id',$id);
-		$req->bindValue(':nom',$nom);	
-		$req->bindValue(':prix',$prix);
-		$req->bindValue(':quantite',$quantite);
-		$req->bindValue(':image',$image);
+        
+		$req->bindValue(':categorie',$categorie);
+		$req->bindValue(':nom',$nom);
+        $req->bindValue(':couleur',$couleur);
+        $req->bindValue(':image',$image);
+        $req->bindValue(':prix',$prix);
+		$req->bindValue(':stock',$stock);
 		$req->bindValue(':description',$description);
             $req->execute();
 
@@ -48,11 +54,11 @@ function afficherProduit ($produit){
             die('Erreur: '.$e->getMessage());
         }	
 	}
-    function supprimerProduit($id){
-		$sql="DELETE FROM produit where id= :id";
+    function supprimerProduit($reference){
+		$sql="DELETE FROM produit where reference= :reference";
 		$db = config::getConnexion();
         $req=$db->prepare($sql);
-		$req->bindValue(':id',$id);
+		$req->bindValue(':reference',$reference);
 		try{
             $req->execute();
            // header('Location: index.php');
@@ -61,43 +67,24 @@ function afficherProduit ($produit){
             die('Erreur: '.$e->getMessage());
         }
 	}
-function modifierProduit($produit,$id){
-		$sql="UPDATE produit SET id=:id, nom=:nom,  prix=:prix, quantite=:quantite,image=:image, description=:description WHERE id=:id";
-		
-		$db = config::getConnexion();
-		//$db->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-try{		
-        $req=$db->prepare($sql);
+function modifierProduit($produit,$reference){
+    $db = config::getConnexion();
 
-        $id=$produit->getid();
-        $nom=$produit->getnom();
-        $prix=$produit->getprix();
-        $quantite=$produit->getquantite();
-        $image=$produit->getimage();     
-        $description=$produit->getdescription();
-
-		$datas = array(':id'=>$id,   ':nom'=>$nom,':prix'=>$prix,  ':quantite'=>$quantite,'image'=>$image, 'description'=>$description);
-
-		$req->bindValue(':id',$id);
-		$req->bindValue(':nom',$nom);
-		$req->bindValue(':prix',$prix);
-		$req->bindValue(':quantite',$quantite);	
-		$req->bindValue(':image',$image);	
-		$req->bindValue(':description',$description);
+    $req = $db->query("update produit set  
 
 
-            $s=$req->execute();
-			
-           // header('Location: index.php');
-        }
-        catch (Exception $e){
-            echo " Erreur ! ".$e->getMessage();
-   echo " Les datas : " ;
-  print_r($datas);
-        }
+    categorie='" .$produit->getCategorie() . "',
+    nom='" .$produit->getNom() . "',
+    prix='" .$produit->getprix() . "',
+    couleur='" .$produit->getCouleur() . "',
+    image='" .$produit->getImage() . "',
+    stock='" .$produit->getStock() . "',
+    description='" .$produit->getDescription() . "'
+            WHERE reference='" . $reference . "' ") ;
+
 	}
-	function recupererProduit($id){
-		$sql="SELECT * from produit where id=$id";
+	function recupererProduit($reference){
+		$sql="SELECT * from produit where reference=$reference";
 		$db = config::getConnexion();
 		try{
 		$liste=$db->query($sql);

@@ -425,6 +425,8 @@ folder instead of downloading all of them to reduce the load. -->
     </a>
   </li>
 
+  
+
  
 
   
@@ -462,12 +464,12 @@ folder instead of downloading all of them to reduce the load. -->
 
 
 
-<form method="POST" action="ajoutProduit.php">
+<form method="POST" action="AjoutCategorie.php">
   <table>
 
 <div class="box box-default">
   <div class="box-header with-border">
-    <h3 class="box-title">Ajouter produit</h3>
+    <h3 class="box-title">Ajouter categorie</h3>
 
     <div class="box-tools pull-right">
       <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -482,84 +484,29 @@ folder instead of downloading all of them to reduce the load. -->
 
 
   <div class="form-group row">
-    
-    <label for="example-text-input" class="col-sm-2 col-form-label">categorie</label>
-        <div class="col-sm-10">
-  <!--  
-    <input class="form-control" type="text" placeholder="categorie"  id="categorie" name="categorie" required>
-  -->
-<select name="categorie" id="categorie" required>
-<?PHP
-$connect = mysqli_connect("localhost", "root", "", "web");  
- $query = "SELECT * FROM categorie";
- $result = mysqli_query($connect, $query);
-?>
+    <label for="example-text-input" class="col-sm-2 col-form-label">id_categorie</label>
+    <div class="col-sm-10">
+    <input class="form-control" type="text" placeholder="id_categorie"  id="id_categorie" name="id_categorie" onkeypress="verifierId(event); return false;" >
 
-<?php
- while($row=mysqli_fetch_array( $result ))
- {
-  ?>
-  <option value="<?PHP echo $row['nom_categorie']?>"><?PHP echo $row['nom_categorie']?></option>
-<?PHP
-}
-  ?>
 
-</select>
     </div>
-
       </div>
         
-        <div class="form-group row">
-          <label for="example-text-input" class="col-sm-2 col-form-label">nom</label>
-          <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="nom"  name="nom" id="nom" onkeypress=" "autocomplete="off" verifierCaracteres(event); return false;" />
-
-          </div>
-        </div>  
 
         <div class="form-group row">
-          <label for="example-text-input" class="col-sm-2 col-form-label">couleur</label>
+          <label for="example-text-input" class="col-sm-2 col-form-label">nom_categorie</label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="couleur" id="couleur"  name="couleur" onkeypress="verifierCaracteres1(event); return false;"/>
+            <input class="form-control" type="text" placeholder="nom_categorie"  name="nom_categorie" id="nom_categorie" onkeypress="verifierNom(event); return false;" />
 
           </div>
         </div>
 
-        <div class="form-group row">
-          <label for="example-text-input" class="col-sm-2 col-form-label">Image</label>
-          <div class="col-sm-10">
-            <input class="form-control" type="file"  id="image" name="image" required>
-
-          </div>
-        </div>
-
-        <div class="form-group row">
-    <label for="example-text-input" class="col-sm-2 col-form-label">prix</label>
-    <div class="col-sm-10">
-    <input class="form-control" id="prix" type="number" placeholder="prix" name="prix" required>
-    
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="example-text-input" class="col-sm-2 col-form-label">stock</label>
-    <div class="col-sm-10">
-    <input onkeypress="verifierCaracteres3(event); return false;" id="stock" class="form-control" type="number" placeholder="stock"  name="stock" >
-    
-    </div>
-  </div>
-
-
-  <div class="form-group row">
-          <label for="example-text-input" class="col-sm-2 col-form-label">description</label>
-          <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="description" id="description"  onkeypress="verifierCaracteres2(event); return false;"  name="description" />
-
-          </div>
-        </div>
+        <a onclick="verif()" class="btn btn-primary" > verif</a>
 
         
 
-        <a onclick="verif()" class="btn btn-primary" > verif</a>
+  
+
 
       <!--<button onclick="VerifProduit()"></button>-->
 
@@ -885,8 +832,7 @@ alert ("ajout success ");
 
 <!-- minimal_admin for demo purposes -->
 <script src="../../js/demo.js"></script>
-
-<script type="text/javascript" src="ccss.js"></script>
+<script type="text/javascript" src="cat.js"></script>
 
 </body>
 
